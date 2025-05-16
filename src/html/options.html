@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Detoxifier Options</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f7f9fa;
+            color: #0f1419;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        h1 {
+            color: #1da1f2;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #1da1f2;
+            font-size: 18px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e6ecf0;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input[type="text"], 
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cfd9de;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+        }
+        button {
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #1a91da;
+        }
+        .button-secondary {
+            background-color: transparent;
+            color: #1da1f2;
+            border: 1px solid #1da1f2;
+        }
+        .button-secondary:hover {
+            background-color: rgba(29, 161, 242, 0.1);
+        }
+        .button-danger {
+            background-color: #e0245e;
+        }
+        .button-danger:hover {
+            background-color: #c9184a;
+        }
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f7f9fa;
+            border-radius: 8px;
+        }
+        .schedule-days {
+            display: flex;
+            gap: 5px;
+            margin-right: 15px;
+        }
+        .day-checkbox {
+            display: flex;
+            align-items: center;
+        }
+        .schedule-times {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+        }
+        .schedule-remove {
+            background: none;
+            border: none;
+            color: #e0245e;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+        }
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .keyword-tag {
+            background-color: #e8f5fd;
+            color: #1da1f2;
+            padding: 5px 10px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+        }
+        .keyword-remove {
+            background: none;
+            border: none;
+            color: #1da1f2;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        .add-keyword {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .add-keyword input {
+            flex-grow: 1;
+        }
+        .stats-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f9fa;
+            border-radius: 8px;
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e6ecf0;
+        }
+        .stats-row:last-child {
+            border-bottom: none;
+        }
+        .stats-label {
+            color: #657786;
+        }
+        .stats-value {
+            font-weight: bold;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .button-group-right {
+            display: flex;
+            gap: 10px;
+        }
+        .success-message {
+            background-color: #e3f7eb;
+            color: #17bf63;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Twitter Detoxifier Settings</h1>
+        
+        <div id="success-message" class="success-message">
+            Settings saved successfully!
+        </div>
+        
+        <h2>Website Blocking</h2>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="blocking-enabled">
+                Enable time-based blocking
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Blocking Schedule</label>
+            <div id="schedule-list">
+                <!-- Schedule items will be added here -->
+            </div>
+            <button id="add-schedule" class="button-secondary">Add Schedule</button>
+        </div>
+        
+        <div class="form-group">
+            <label>Block Message</label>
+            <textarea id="block-message" rows="3" placeholder="Message to display when Twitter is blocked"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="allow-override">
+                Allow emergency override
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Override Cooldown (minutes)</label>
+            <input type="text" id="override-cooldown" placeholder="30">
+        </div>
+        
+        <h2>Feed Detoxification</h2>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="detox-enabled">
+                Enable feed detoxification
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Toxicity Level</label>
+            <select id="toxicity-level">
+                <option value="mild">Mild - Filter only highly toxic content</option>
+                <option value="moderate">Moderate - Balance between filtering and visibility</option>
+                <option value="strict">Strict - Filter all potentially toxic content</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Filter Keywords</label>
+            <div id="keyword-list" class="keyword-list">
+                <!-- Keywords will be added here -->
+            </div>
+            <div class="add-keyword">
+                <input type="text" id="new-keyword" placeholder="Add a keyword to filter">
+                <button id="add-keyword" class="button-secondary">Add</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Filter Accounts</label>
+            <div id="account-list" class="keyword-list">
+                <!-- Accounts will be added here -->
+            </div>
+            <div class="add-keyword">
+                <input type="text" id="new-account" placeholder="Add a Twitter handle to filter (without @)">
+                <button id="add-account" class="button-secondary">Add</button>
+            </div>
+        </div>
+        
+        <h2>Media Filtering</h2>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="media-enabled">
+                Enable media filtering
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Media Filter Keywords</label>
+            <div id="media-keyword-list" class="keyword-list">
+                <!-- Media keywords will be added here -->
+            </div>
+            <div class="add-keyword">
+                <input type="text" id="new-media-keyword" placeholder="Add a keyword to filter images/videos">
+                <button id="add-media-keyword" class="button-secondary">Add</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="blur-images">
+                Blur filtered images/videos
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="allow-review">
+                Allow reviewing filtered media
+            </label>
+        </div>
+        
+        <h2>Statistics</h2>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="track-usage">
+                Track usage statistics
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="track-filtered">
+                Track filtered content
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="show-sidebar">
+                Show statistics in sidebar
+            </label>
+        </div>
+        
+        <div class="stats-container">
+            <h3>Your Statistics</h3>
+            <div class="stats-row">
+                <span class="stats-label">Time spent on Twitter today:</span>
+                <span class="stats-value" id="time-spent">0m</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Visits today:</span>
+                <span class="stats-value" id="visits">0</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Content filtered:</span>
+                <span class="stats-value" id="filtered-content">0</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Media filtered:</span>
+                <span class="stats-value" id="filtered-media">0</span>
+            </div>
+            <div class="stats-row">
+                <span class="stats-label">Estimated time saved:</span>
+                <span class="stats-value" id="time-saved">0m</span>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button id="reset-stats" class="button-danger">Reset Statistics</button>
+            <div class="button-group-right">
+                <button id="restore-defaults" class="button-secondary">Restore Defaults</button>
+                <button id="save-settings">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/options.js"></script>
+</body>
+</html>
