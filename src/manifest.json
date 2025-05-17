@@ -19,7 +19,7 @@
   "content_scripts": [
     {
       "matches": ["https://twitter.com/*", "https://x.com/*"],
-      "js": ["js/content.js"],
+      "js": ["js/media-filter.js", "js/content.js"],
       "css": ["css/content.css"]
     }
   ],
