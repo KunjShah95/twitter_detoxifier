@@ -237,7 +237,11 @@ class MediaFilter {
   }
 }
 
-// Export the module
+// Export the module if running in CommonJS environment
 if (typeof module !== 'undefined') {
   module.exports = MediaFilter;
+}
+// Expose MediaFilter globally for content scripts
+if (typeof window !== 'undefined') {
+  window.MediaFilter = MediaFilter;
 }
